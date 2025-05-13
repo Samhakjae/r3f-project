@@ -3,6 +3,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Floor } from "./components/Floor";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
+import GLTFCharacter from "./components/Character";
 
 function CameraRig({ move }: { move: boolean }) {
   const { camera } = useThree();
@@ -99,10 +100,10 @@ function App() {
       )}
       <Canvas camera={{ position: [0, 10, 0], fov: 50 }}>
         <ambientLight intensity={1} />
-
+        <GLTFCharacter position={[0, 2, 0]} animation="ArmatureAction" />
         <Floor />
 
-        <CameraRig move={move} />
+        <OrbitControls />
       </Canvas>
     </div>
   );

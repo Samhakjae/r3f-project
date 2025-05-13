@@ -4,7 +4,7 @@ import { CapsuleCollider, RigidBody } from "@react-three/rapier";
 import { useControls } from "leva";
 import { useEffect, useRef, useState } from "react";
 import { MathUtils, Vector3 } from "three";
-import { degToRad } from "three/src/math/MathUtils.js";
+import { degToRad, lerp } from "three/src/math/MathUtils.js";
 import { Character } from "./Character";
 
 const normalizeAngle = (angle) => {
@@ -47,7 +47,7 @@ export const CharacterController = () => {
   const characterRotationTarget = useRef(0);
   const rotationTarget = useRef(0);
   const cameraTarget = useRef();
-  const CameraPosition = useRef();
+  const cameraPosition = useRef();
   const cameraWorldPosition = useRef(new Vector3());
   const cameraLookAtWorldPosition = useRef(new Vector3());
   const cameraLookAt = useRef(new Vector3());
@@ -98,6 +98,59 @@ export const CharacterController = () => {
         }
         movement.z = mouse.y + 0.4;
       }
+
+      if (movement.x !== 0 || movement.z !== 0) {
+        characterRotationTarget.current = Math.atan2(movement.x, movement.z);
+        vel.x =
+          Math.sin(rotationTarget.current + characterRotationTarget.current) *
+          speed;
+        vel.z =
+          Math.cos(rotationTarget.current + characterRotationTarget.current) *
+          speed;
+        if (speed === WALK_SPEED) {
+          setAnimation("walk");
+        } else {
+          setAnimation("idle");
+        }
+        character.current.rotation.y = lerpAngle(
+          character.current.rotation.y,
+          characterRotationTarget.current,
+          0.1
+        );
+
+        rb.current.setLinvel(vel, true);
+      }
+
+      container.current.rotation.y = MathUtils.lerp(
+        container.current.rotation.y,
+        rotationTarget.current,
+        0.1
+      );
+
+      cameraPosition.current.getWorldPosition(cameraWorldPosition.current);
+      camera.position.lerp(cameraWorldPosition.current, 0.1);
+
+      if (cameraTarget.current) {
+        cameraTarget.current.getWorldPosition(
+          cameraLookAtWorldPosition.current
+        );
+        cameraLookAt.current.lerp(cameraLookAtWorldPosition.current, 0.1);
+
+        camera.lookAt(cameraLookAt.current);
+      }
     }
   });
+
+  return (
+    <RigidBody colliders={false} lockRotations ref={rb}>
+      <group ref={container}>
+        <group ref={cameraTarget} position-z={1.5} />
+        <group ref={cameraPosition} position-y={7} position-z={-7} />
+        <group ref={character}>
+          <Character scale={0.18} position-y={-0.25} animation={animation} />
+        </group>
+      </group>
+      <CapsuleCollider args={[0.08, 0.15]} />
+    </RigidBody>
+  );
 };
