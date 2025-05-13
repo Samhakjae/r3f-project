@@ -1,33 +1,20 @@
-import { useAnimations, useGLTF } from "@react-three/drei";
+import { useLoader } from "@react-three/fiber";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { useEffect, useRef } from "react";
+import { Group } from "three";
+import { useAnimations } from "@react-three/drei";
 
-export function Character({ animation, ...props }) {
-  const group = useRef();
-  const { nodes, materials, animations } = useGLTF("/models/character.glb");
-  const { actions } = useAnimations(animations, group);
+export default function GLTFCharacter(props: string) {
+  const gltf = useLoader(GLTFLoader, "/models/chung-walk.glb");
+  const group = useRef<Group>(null);
+  const { actions } = useAnimations(gltf.animations, group);
 
   useEffect(() => {
-    actions[animation]?.reset().fadeIn(0.24).play();
-    return () => actions?.[animation]?.fadeOut(0.24);
-  }, [animation]);
+    if (actions && actions["ArmatureAction"]) {
+      actions["ArmatureAction"].reset().fadeIn(0.3).play();
+      return () => actions["ArmatureAction"]?.fadeOut(0.3);
+    }
+  }, [actions]);
 
-  return (
-    <group ref={group} {...props} dispose={null}>
-      <group name="Scene">
-        <group name="chungle">
-          <primitive object={nodes._rootJoint} />
-          <skinnedMesh
-            name="body"
-            geometry={nodes.body.geometry}
-            material={materials.Material}
-            skeleton={nodes.body.skeleton}
-            castShadow
-            recieveShadow
-          />
-        </group>
-      </group>
-    </group>
-  );
+  return <primitive ref={group} object={gltf.scene} {...props} />;
 }
-
-useGLTF.preload("/models/character.glb");
