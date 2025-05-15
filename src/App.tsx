@@ -4,6 +4,9 @@ import { Floor } from "./components/Floor";
 import { OrbitControls } from "@react-three/drei";
 import Character from "./components/Character";
 import CameraMove from "./components/CameraMove";
+import { Physics, RigidBody } from "@react-three/rapier";
+import { KeyboardControls } from "@react-three/drei";
+import Experience from "./components/Expreience";
 
 function App() {
   const [move, setMove] = useState(false);
@@ -21,9 +24,14 @@ function App() {
         </div>
       )}
       <Canvas camera={{ position: [0, 10, 0], fov: 50 }}>
-        <ambientLight intensity={1} />
-        <Character position={[0, 2, 0]} animation="ArmatureAction" />
-        <Floor />
+        <Physics>
+          <RigidBody type="fixed">
+            <Experience />
+
+            {/* <Floor /> */}
+          </RigidBody>
+        </Physics>
+
         {/* <CameraMove move={move} /> */}
         <OrbitControls />
       </Canvas>
