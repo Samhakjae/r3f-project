@@ -1,43 +1,44 @@
 import { useFrame, useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, forwardRef } from "react";
 import { Group } from "three";
 import { useAnimations } from "@react-three/drei";
 import * as THREE from "three";
 
-type ActionName = "ArmatureAction";
-
-const group = useRef<THREE.Group>();
-const { scene, animations } = useGLTF("/models/chung-walk.glb");
-const { actions } = useAnimations(animations, group);
-
-export default function Character(props: any, targetPos: number) {
+const Character = forwardRef<Group, any>((props, ref) => {
+  const { targetPos, isMoving, onArrive } = props;
   const gltf = useLoader(GLTFLoader, "/models/chung-walk.glb");
   const group = useRef<Group>(null);
   const { actions } = useAnimations(gltf.animations, group);
 
   useEffect(() => {
-    if (actions && actions["ArmatureAction"]) {
-      actions["ArmatureAction"].reset().fadeIn(0.3).play();
-      return () => actions["ArmatureAction"]?.fadeOut(0.3);
+    const action = actions?.["ArmatureAction"];
+
+    if (isMoving) {
+      action?.reset().fadeIn(0.3).play();
+    } else {
+      action?.fadeOut(0.3);
     }
-  }, [actions]);
+
+    return () => action?.stop();
+  }, [isMoving, actions]);
 
   useFrame(() => {
-    if (
-      group.current &&
-      group.current?.position.distanceTo(props.targetPos) > 1
-    ) {
+    if (group.current && group.current?.position.distanceTo(targetPos) > 1) {
       const direction = group.current.position
         .clone()
-        .sub(props.targetPos)
+        .sub(targetPos)
         .normalize()
-        .multiplyScalar(0.5);
+        .multiplyScalar(0.35);
 
       group.current?.position.sub(direction);
-      group.current.lookAt(props.targetPos);
+      group.current.lookAt(targetPos);
+    } else {
+      if (isMoving && onArrive) onArrive();
     }
   });
 
   return <primitive ref={group} object={gltf.scene} {...props} />;
-}
+});
+
+export default Character;

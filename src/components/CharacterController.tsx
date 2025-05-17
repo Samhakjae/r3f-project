@@ -14,7 +14,7 @@ export default function CharacterController({
 
   useEffect(() => {
     const action = actions[animation];
-    action?.reset().fadeIn(0.4).play();
+    action?.reset().fadeIn(0.2).play();
 
     return () => {
       action?.fadeOut(0.3);
