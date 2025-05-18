@@ -36,15 +36,12 @@ function App() {
             </div>
           )}
           <Canvas camera={{ position: [0, 10, 0], fov: 50 }}>
+            <CameraMove move={move} />
             <Physics>
               <RigidBody type="fixed">
                 <Experience />
-
-                {/* <Floor /> */}
               </RigidBody>
             </Physics>
-
-            <OrbitControls />
           </Canvas>
         </div>
       )}
