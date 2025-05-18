@@ -6,7 +6,7 @@ import { ThreeEvent, useFrame } from "@react-three/fiber";
 
 export default function Experience() {
   const [targetPos, setTargetPos] = useState<THREE.Vector3>(
-    new THREE.Vector3(0, 2, 0)
+    new THREE.Vector3(-20, 2, 0)
   );
   const [isMoving, setIsMoving] = useState(false);
   const characterRef = useRef<THREE.Group>(null);
@@ -29,7 +29,7 @@ export default function Experience() {
 
       <Box
         position={[0, -1, 0]}
-        args={[100, 2, 100]}
+        args={[1000, 2, 1000]}
         onClick={(e: ThreeEvent<MouseEvent>) => {
           setTargetPos(new THREE.Vector3(e.point.x, 2, e.point.z));
           setIsMoving(true);

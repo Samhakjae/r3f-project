@@ -17,7 +17,7 @@ const Character = forwardRef<Group, any>((props, ref) => {
     if (isMoving) {
       action?.reset().fadeIn(0.3).play();
     } else {
-      action?.fadeOut(0.3);
+      action?.fadeOut(1);
     }
 
     return () => action?.stop();
@@ -38,7 +38,14 @@ const Character = forwardRef<Group, any>((props, ref) => {
     }
   });
 
-  return <primitive ref={group} object={gltf.scene} {...props} />;
+  return (
+    <primitive
+      ref={group}
+      object={gltf.scene}
+      rotation={[-Math.PI / 1, 0, 0]}
+      {...props}
+    />
+  );
 });
 
 export default Character;
