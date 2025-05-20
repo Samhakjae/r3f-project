@@ -4,6 +4,7 @@ import { useEffect, useRef, forwardRef } from "react";
 import { Group } from "three";
 import { useAnimations } from "@react-three/drei";
 import * as THREE from "three";
+import FollowCamera from "./FollowCamera";
 
 const Character = forwardRef<Group, any>((props, ref) => {
   const { targetPos, isMoving, onArrive } = props;
@@ -39,12 +40,15 @@ const Character = forwardRef<Group, any>((props, ref) => {
   });
 
   return (
-    <primitive
-      ref={group}
-      object={gltf.scene}
-      rotation={[-Math.PI / 1, 0, 0]}
-      {...props}
-    />
+    <>
+      <primitive
+        ref={group}
+        object={gltf.scene}
+        rotation={[-Math.PI / 1, 0, 0]}
+        {...props}
+      />
+      <FollowCamera targetRef={group} />
+    </>
   );
 });
 

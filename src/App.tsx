@@ -13,12 +13,6 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [move, setMove] = useState(false);
 
-  useEffect(() => {
-    const time = setTimeout(() => {
-      setLoading(false);
-    }, 3500);
-  }, []);
-
   return (
     <>
       {loading ? (
@@ -37,11 +31,7 @@ function App() {
           )}
           <Canvas camera={{ position: [0, 10, 0], fov: 50 }}>
             <CameraMove move={move} />
-            <Physics>
-              <RigidBody type="fixed">
-                <Experience />
-              </RigidBody>
-            </Physics>
+            <Experience />
           </Canvas>
         </div>
       )}
