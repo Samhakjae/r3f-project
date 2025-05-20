@@ -26,14 +26,18 @@ const Character = forwardRef<Group, any>((props, ref) => {
 
   useFrame(() => {
     if (group.current && group.current?.position.distanceTo(targetPos) > 1) {
+      const clampedTarget = targetPos.clone();
+      clampedTarget.x = THREE.MathUtils.clamp(clampedTarget.x, -200, 200);
+      clampedTarget.z = THREE.MathUtils.clamp(clampedTarget.z, -200, 200);
+
       const direction = group.current.position
         .clone()
-        .sub(targetPos)
+        .sub(clampedTarget)
         .normalize()
         .multiplyScalar(0.35);
 
       group.current?.position.sub(direction);
-      group.current.lookAt(targetPos);
+      group.current.lookAt(clampedTarget);
     } else {
       if (isMoving && onArrive) onArrive();
     }

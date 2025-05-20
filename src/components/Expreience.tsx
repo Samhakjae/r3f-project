@@ -12,7 +12,16 @@ export default function Experience() {
     new THREE.Vector3(-20, 2, 0)
   );
   const [isMoving, setIsMoving] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [mousePoint, setMousePoint] = useState<THREE.Vector3 | null>(null);
   const characterRef = useRef<THREE.Group>(null);
+
+  useFrame(() => {
+    if (isDragging && mousePoint) {
+      setTargetPos(mousePoint);
+      setIsMoving(true);
+    }
+  });
 
   return (
     <>
@@ -33,9 +42,22 @@ export default function Experience() {
       <Box
         position={[0, -1, 0]}
         args={[1000, 2, 1000]}
-        onClick={(e: ThreeEvent<MouseEvent>) => {
-          setTargetPos(new THREE.Vector3(e.point.x, 2, e.point.z));
-          setIsMoving(true);
+        onPointerDown={(e) => {
+          setIsDragging(true);
+          setMousePoint(new THREE.Vector3(e.point.x, 2, e.point.z));
+        }}
+        onPointerMove={(e) => {
+          if (isDragging) {
+            setMousePoint(new THREE.Vector3(e.point.x, 2, e.point.z));
+          }
+        }}
+        onPointerUp={() => {
+          if (mousePoint) {
+            setTargetPos(mousePoint);
+            setIsMoving(true);
+          }
+          setIsDragging(false);
+          setMousePoint(null);
         }}
       >
         <meshStandardMaterial color="skyblue" />
