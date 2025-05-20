@@ -1,15 +1,27 @@
 import { useState, useRef } from "react";
-import { Box, Environment, OrbitControls } from "@react-three/drei";
+import { Box, Environment, Line, OrbitControls } from "@react-three/drei";
 import Character from "./Character";
 import * as THREE from "three";
 import { ThreeEvent, useFrame } from "@react-three/fiber";
+import CameraMove from "./CameraMove";
+import LineAnimation from "../test/LineAnimation";
 
 export default function Experience() {
+  const [move, setMove] = useState(false);
   const [targetPos, setTargetPos] = useState<THREE.Vector3>(
-    new THREE.Vector3(0, 2, 0)
+    new THREE.Vector3(-20, 2, 0)
   );
   const [isMoving, setIsMoving] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [mousePoint, setMousePoint] = useState<THREE.Vector3 | null>(null);
   const characterRef = useRef<THREE.Group>(null);
+
+  useFrame(() => {
+    if (isDragging && mousePoint) {
+      setTargetPos(mousePoint);
+      setIsMoving(true);
+    }
+  });
 
   return (
     <>
@@ -29,13 +41,26 @@ export default function Experience() {
 
       <Box
         position={[0, -1, 0]}
-        args={[100, 2, 100]}
-        onClick={(e: ThreeEvent<MouseEvent>) => {
-          setTargetPos(new THREE.Vector3(e.point.x, 2, e.point.z));
-          setIsMoving(true);
+        args={[1000, 2, 1000]}
+        onPointerDown={(e) => {
+          setIsDragging(true);
+          setMousePoint(new THREE.Vector3(e.point.x, 2, e.point.z));
+        }}
+        onPointerMove={(e) => {
+          if (isDragging) {
+            setMousePoint(new THREE.Vector3(e.point.x, 2, e.point.z));
+          }
+        }}
+        onPointerUp={() => {
+          if (mousePoint) {
+            setTargetPos(mousePoint);
+            setIsMoving(true);
+          }
+          setIsDragging(false);
+          setMousePoint(null);
         }}
       >
-        <meshStandardMaterial />
+        <meshStandardMaterial color="skyblue" />
       </Box>
     </>
   );
