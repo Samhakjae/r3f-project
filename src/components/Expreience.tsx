@@ -3,11 +3,12 @@ import { Box, Environment, Line, OrbitControls } from "@react-three/drei";
 import Character from "./Character";
 import * as THREE from "three";
 import { ThreeEvent, useFrame } from "@react-three/fiber";
-import CameraMove from "./CameraMove";
-import LineAnimation from "../test/LineAnimation";
 
-export default function Experience() {
-  const [move, setMove] = useState(false);
+export default function Experience({
+  changeCamera,
+}: {
+  changeCamera: boolean;
+}) {
   const [targetPos, setTargetPos] = useState<THREE.Vector3>(
     new THREE.Vector3(-20, 2, 0)
   );
@@ -34,6 +35,7 @@ export default function Experience() {
         animation="ArmatureAction"
         targetPos={targetPos}
         isMoving={isMoving}
+        changeCamera={changeCamera}
         onArrive={() => {
           setIsMoving(false);
         }}
