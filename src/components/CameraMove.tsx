@@ -12,7 +12,7 @@ export default function CameraMove({ move }: { move: boolean }) {
       hasSetTarget.current = true;
 
       new JEASINGS.JEasing(camera.position)
-        .to({ x: 6, y: 38, z: 38 }, 3000)
+        .to({ x: 6, y: 38, z: 42 }, 3000)
         .easing(JEASINGS.Cubic.Out)
         .start();
 

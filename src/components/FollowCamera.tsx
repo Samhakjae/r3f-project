@@ -1,6 +1,5 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import { useRef } from "react";
 
 const FollowCamera = ({
   targetRef,
@@ -12,7 +11,7 @@ const FollowCamera = ({
     if (!targetRef.current) return;
 
     const targetPos = targetRef.current.position.clone();
-    const offset = new THREE.Vector3(6, 42, 42); // 유지할 고정 높이
+    const offset = new THREE.Vector3(6, 38, 38); // 유지할 고정 높이
     const desiredPos = new THREE.Vector3(targetPos.x, 0, targetPos.z).add(
       offset
     ); // 수평 위치만 따라감

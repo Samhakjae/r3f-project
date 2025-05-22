@@ -6,7 +6,7 @@ import { useAnimations } from "@react-three/drei";
 import * as THREE from "three";
 import FollowCamera from "./FollowCamera";
 
-const Character = forwardRef<Group, any>((props, ref) => {
+const Character = forwardRef<Group, any>((props) => {
   const { targetPos, isMoving, onArrive } = props;
   const gltf = useLoader(GLTFLoader, "/models/chung-walk.glb");
   const group = useRef<Group>(null);
@@ -34,7 +34,7 @@ const Character = forwardRef<Group, any>((props, ref) => {
         .clone()
         .sub(clampedTarget)
         .normalize()
-        .multiplyScalar(0.35);
+        .multiplyScalar(0.12);
 
       group.current?.position.sub(direction);
       group.current.lookAt(clampedTarget);
@@ -42,16 +42,17 @@ const Character = forwardRef<Group, any>((props, ref) => {
       if (isMoving && onArrive) onArrive();
     }
   });
+  console.log(props.changeCamera);
 
   return (
     <>
       <primitive
         ref={group}
         object={gltf.scene}
-        rotation={[-Math.PI / 1, 0, 0]}
+        position={[-55, 2, 10]}
         {...props}
       />
-      <FollowCamera targetRef={group} />
+      {props.changeCamera && <FollowCamera targetRef={group} />}
     </>
   );
 });
