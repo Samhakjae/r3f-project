@@ -1,1 +1,3 @@
-export default function Department() {}
+export default function Department() {
+    
+}

@@ -34,7 +34,7 @@ const Character = forwardRef<Group, any>((props) => {
         .clone()
         .sub(clampedTarget)
         .normalize()
-        .multiplyScalar(0.35);
+        .multiplyScalar(0.12);
 
       group.current?.position.sub(direction);
       group.current.lookAt(clampedTarget);
@@ -49,7 +49,7 @@ const Character = forwardRef<Group, any>((props) => {
       <primitive
         ref={group}
         object={gltf.scene}
-        position={[-20, 2, 0]}
+        position={[-55, 2, 10]}
         {...props}
       />
       {props.changeCamera && <FollowCamera targetRef={group} />}
