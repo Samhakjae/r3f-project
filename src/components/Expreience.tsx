@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Box, Environment, Line, OrbitControls } from "@react-three/drei";
 import Character from "./Character";
 import * as THREE from "three";
-import { ThreeEvent, useFrame } from "@react-three/fiber";
+import { ThreeEvent, useFrame, useThree } from "@react-three/fiber";
 
 export default function Experience({
   changeCamera,
@@ -10,20 +10,34 @@ export default function Experience({
   changeCamera: boolean;
 }) {
   const [targetPos, setTargetPos] = useState<THREE.Vector3>(
-    new THREE.Vector3(-55, 2, 10)
+    new THREE.Vector3(-50, 2, 10)
   );
   const [isMoving, setIsMoving] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [mousePoint, setMousePoint] = useState<THREE.Vector3 | null>(null);
   const [cameraFollow, setCameraFollow] = useState(false);
   const [clickBlocked, setClickBlocked] = useState(true);
+  const [inZone, setInZone] = useState(false);
   const characterRef = useRef<THREE.Group>(null);
-
+  const { camera } = useThree();
+  console.log(targetPos);
   useFrame(() => {
     if (clickBlocked) return;
     if (isDragging && mousePoint) {
       setTargetPos(mousePoint);
       if (!isMoving) setIsMoving(true);
+    }
+
+    if (characterRef.current) {
+      const charPos = characterRef.current.position;
+      const targetZone = new THREE.Vector3(2, 2);
+      if (charPos.distanceTo(targetZone) < 10 && !inZone) {
+        console.log("inZone");
+        setInZone(true);
+        camera.position.set(10, 30, 10);
+        camera.lookAt(20, 2, 20);
+        setClickBlocked(true);
+      }
     }
   });
 
@@ -84,6 +98,13 @@ export default function Experience({
       >
         <meshStandardMaterial color="skyblue" />
       </Box>
+
+      {inZone && (
+        <mesh position={[20, 2, 2]}>
+          <boxGeometry args={[2, 2, 2]} />
+          <meshStandardMaterial color="orange" />
+        </mesh>
+      )}
     </>
   );
 }

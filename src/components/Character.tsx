@@ -49,7 +49,7 @@ const Character = forwardRef<Group, any>((props) => {
       <primitive
         ref={group}
         object={gltf.scene}
-        position={[-55, 2, 10]}
+        position={[-50, 2, 10]}
         {...props}
       />
       {props.changeCamera && <FollowCamera targetRef={group} />}
