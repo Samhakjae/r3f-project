@@ -11,6 +11,22 @@ const Character = forwardRef<Group, any>((props) => {
   const gltf = useLoader(GLTFLoader, "/models/chung-walk.glb");
   const group = useRef<Group>(null);
   const { actions } = useAnimations(gltf.animations, group);
+  console.log("props:", props);
+  gltf.scene.traverse((child) => {
+    if (child.isMesh) {
+      console.log(child.name);
+    }
+  });
+  useEffect(() => {
+    gltf.scene.traverse((child) => {
+      if (
+        child.isMesh &&
+        (child.name === "ohh" || child.name === "small scene")
+      ) {
+        child.visible = false;
+      }
+    });
+  }, [gltf]);
 
   useEffect(() => {
     const action = actions?.["ArmatureAction"];

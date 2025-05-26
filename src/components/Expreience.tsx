@@ -3,6 +3,7 @@ import { Box, Environment, Line, OrbitControls } from "@react-three/drei";
 import Character from "./Character";
 import * as THREE from "three";
 import { ThreeEvent, useFrame, useThree } from "@react-three/fiber";
+import Department from "./Department";
 
 export default function Experience({
   changeCamera,
@@ -73,6 +74,8 @@ export default function Experience({
           }
         }}
       />
+
+      <Department animation="tableAction" />
 
       <Box
         position={[0, -1, 0]}
