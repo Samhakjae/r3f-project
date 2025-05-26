@@ -11,12 +11,7 @@ const Character = forwardRef<Group, any>((props) => {
   const gltf = useLoader(GLTFLoader, "/models/chung-walk.glb");
   const group = useRef<Group>(null);
   const { actions } = useAnimations(gltf.animations, group);
-  console.log("props:", props);
-  gltf.scene.traverse((child) => {
-    if (child.isMesh) {
-      console.log(child.name);
-    }
-  });
+  gltf.scene.traverse((child) => {});
   useEffect(() => {
     gltf.scene.traverse((child) => {
       if (
@@ -58,7 +53,6 @@ const Character = forwardRef<Group, any>((props) => {
       if (isMoving && onArrive) onArrive();
     }
   });
-  console.log(props.changeCamera);
 
   return (
     <>

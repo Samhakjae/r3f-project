@@ -21,7 +21,6 @@ export default function Experience({
   const [inZone, setInZone] = useState(false);
   const characterRef = useRef<THREE.Group>(null);
   const { camera } = useThree();
-  console.log(targetPos);
   useFrame(() => {
     if (clickBlocked) return;
     if (isDragging && mousePoint) {
@@ -33,7 +32,6 @@ export default function Experience({
       const charPos = characterRef.current.position;
       const targetZone = new THREE.Vector3(2, 2);
       if (charPos.distanceTo(targetZone) < 10 && !inZone) {
-        console.log("inZone");
         setInZone(true);
         camera.position.set(10, 30, 10);
         camera.lookAt(20, 2, 20);
@@ -61,7 +59,7 @@ export default function Experience({
       <Environment preset="sunset" />
       <ambientLight intensity={1} />
 
-      <Character
+      {/* <Character
         ref={characterRef}
         animation="ArmatureAction"
         targetPos={targetPos}
@@ -73,9 +71,9 @@ export default function Experience({
             setCameraFollow(true);
           }
         }}
-      />
+      /> */}
 
-      <Department animation="tableAction" />
+      <Department />
 
       <Box
         position={[0, -1, 0]}
@@ -101,13 +99,6 @@ export default function Experience({
       >
         <meshStandardMaterial color="skyblue" />
       </Box>
-
-      {inZone && (
-        <mesh position={[20, 2, 2]}>
-          <boxGeometry args={[2, 2, 2]} />
-          <meshStandardMaterial color="orange" />
-        </mesh>
-      )}
     </>
   );
 }
