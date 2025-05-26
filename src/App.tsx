@@ -8,7 +8,7 @@ import { Physics, RigidBody } from "@react-three/rapier";
 import { KeyboardControls } from "@react-three/drei";
 import Experience from "./components/Expreience";
 import Loading from "./components/Loading";
-
+import Department from "./components/Department";
 function App() {
   const [loading, setLoading] = useState(false);
   const [move, setMove] = useState(false);
