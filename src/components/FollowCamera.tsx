@@ -12,12 +12,12 @@ const FollowCamera = ({
 
     const targetPos = targetRef.current.position.clone();
     const offset = new THREE.Vector3(6, 38, 38); // 유지할 고정 높이
-    const desiredPos = new THREE.Vector3(targetPos.x, 0, targetPos.z).add(
-      offset
-    ); // 수평 위치만 따라감
 
-    // 느리게 수평 따라가는 효과
-    camera.position.lerp(desiredPos, 0.05);
+    // Follow x and z
+    camera.position.x = targetPos.x + offset.x;
+    camera.position.z = targetPos.z + offset.z;
+    camera.position.y = offset.y; // 고정된 y
+
     camera.lookAt(new THREE.Vector3(targetPos.x, 0, targetPos.z)); // 항상 아래를 바라보게
   });
 

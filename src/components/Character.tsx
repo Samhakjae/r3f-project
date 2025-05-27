@@ -8,7 +8,8 @@ import FollowCamera from "./FollowCamera";
 
 const Character = forwardRef<Group, any>((props, ref) => {
   const { targetPos, isMoving, onArrive } = props;
-  const gltf = useLoader(GLTFLoader, "/models/chung/chung-walk.glb");
+  const gltf = useLoader(GLTFLoader, "/models/chung/chung-second-walk.glb");
+  const gltf2 = useLoader(GLTFLoader, "/models/chung/chung-idle-ver2.glb");
   const group = useRef<Group>(null);
 
   useEffect(() => {
@@ -20,7 +21,8 @@ const Character = forwardRef<Group, any>((props, ref) => {
     }
   }, [ref]);
 
-  const { actions } = useAnimations(gltf.animations, group);
+  const walkActions = useAnimations(gltf.animations, group);
+  const { actions: idleActions } = useAnimations(gltf2.animations, group);
   gltf.scene.traverse((child) => {});
   useEffect(() => {
     gltf.scene.traverse((child) => {
@@ -34,16 +36,30 @@ const Character = forwardRef<Group, any>((props, ref) => {
   }, [gltf]);
 
   useEffect(() => {
-    const action = actions?.["ArmatureAction"];
+    // No longer overwrite walkActions, keep both animations separate
+  }, [gltf2, walkActions.actions]);
 
-    if (isMoving) {
-      action?.reset().fadeIn(0.3).play();
-    } else {
-      action?.fadeOut(1);
+  useEffect(() => {
+    const current = isMoving
+      ? walkActions.actions?.["ArmatureAction"]
+      : idleActions?.["ArmatureAction"];
+    const previous = isMoving
+      ? idleActions?.["ArmatureAction"]
+      : walkActions.actions?.["ArmatureAction"];
+
+    if (previous && previous.isRunning()) {
+      previous.fadeOut(0.3);
     }
 
-    return () => action?.stop();
-  }, [isMoving, actions]);
+    if (current) {
+      current.timeScale = isMoving ? 1 : 0.3;
+      current.reset().fadeIn(0.3).play();
+    }
+
+    return () => {
+      current?.stop();
+    };
+  }, [isMoving, walkActions.actions, idleActions]);
 
   useFrame(() => {
     if (group.current && group.current?.position.distanceTo(targetPos) > 1) {
@@ -55,7 +71,7 @@ const Character = forwardRef<Group, any>((props, ref) => {
         .clone()
         .sub(clampedTarget)
         .normalize()
-        .multiplyScalar(0.25);
+        .multiplyScalar(0.1);
 
       group.current?.position.sub(direction);
       group.current.lookAt(clampedTarget);

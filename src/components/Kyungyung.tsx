@@ -12,9 +12,9 @@ const models = [
 ];
 
 export default function Kyungyung(props: { showAnimation: boolean }) {
-  const gltf = useGLTF("/models/kyungyung/kyungyung_first.glb");
-  const gltf2 = useGLTF("/models/kyungyung/kyungyung_second.glb");
-  const gltf3 = useGLTF("/models/kyungyung/kyungyung_third.glb");
+  const gltf = useGLTF("/models/kyungyung/kyungyung_1.glb");
+  const gltf2 = useGLTF("/models/kyungyung/kyungyung_2.glb");
+  const gltf3 = useGLTF("/models/kyungyung/kyungyung_3.glb");
   const group = useRef<Group>(null);
   const group2 = useRef<Group>(null);
   const group3 = useRef<Group>(null);
@@ -32,6 +32,7 @@ export default function Kyungyung(props: { showAnimation: boolean }) {
 
       firstActions.forEach((action) => {
         action.reset();
+        action.time = 0.01;
         action.setLoop(THREE.LoopOnce, 1);
         action.clampWhenFinished = true;
         action.fadeIn(0.5).play();
@@ -53,13 +54,13 @@ export default function Kyungyung(props: { showAnimation: boolean }) {
 
       secondActions.forEach((action) => {
         action.reset();
+        action.time = 0.01;
         action.setLoop(THREE.LoopOnce, 1);
         action.clampWhenFinished = true;
         action.fadeIn(0.5).play();
         action.getMixer().addEventListener("finished", () => {
           finishedCount++;
           if (finishedCount === total) {
-            setStartThird(true);
           }
         });
       });
@@ -72,6 +73,7 @@ export default function Kyungyung(props: { showAnimation: boolean }) {
         const thirdActions = Object.values(actions3);
         thirdActions.forEach((action) => {
           action.reset();
+          action.time = 0.01;
           action.setLoop(THREE.LoopOnce, 1);
           action.clampWhenFinished = true;
           action.fadeIn(0.5).play();
