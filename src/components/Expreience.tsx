@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { Box, Environment, Line, OrbitControls } from "@react-three/drei";
 import Character from "./Character";
 import * as THREE from "three";
@@ -18,12 +18,10 @@ export default function Experience({
   const [mousePoint, setMousePoint] = useState<THREE.Vector3 | null>(null);
   const [cameraFollow, setCameraFollow] = useState(false);
   const [clickBlocked, setClickBlocked] = useState(true);
-  const [inZone, setInZone] = useState(false);
   const characterRef = useRef<THREE.Group>(null);
-  const { camera } = useThree();
+  const [showAnimation, setShowAnimation] = useState(false);
 
   useFrame(() => {
-    if (clickBlocked) return;
     if (isDragging && mousePoint) {
       setTargetPos(mousePoint);
       if (!isMoving) setIsMoving(true);
@@ -31,12 +29,10 @@ export default function Experience({
 
     if (characterRef.current) {
       const charPos = characterRef.current.position;
-      const targetZone = new THREE.Vector3(2, 2);
-      if (charPos.distanceTo(targetZone) < 10 && !inZone) {
-        setInZone(true);
-        camera.position.set(10, 30, 10);
-        camera.lookAt(20, 2, 20);
-        setClickBlocked(true);
+      const targetZone = new THREE.Vector3(50, 0, 20);
+      if (charPos.distanceTo(targetZone) < 10 && !showAnimation) {
+        setShowAnimation(true);
+        console.log(showAnimation);
       }
     }
   });
@@ -44,6 +40,7 @@ export default function Experience({
   // Automatically move to [0, 2, 0] after "시작하기" is clicked
   useEffect(() => {
     if (changeCamera) {
+      console.log("position set");
       setClickBlocked(true);
       const timer = setTimeout(() => {
         setTargetPos(new THREE.Vector3(0, 2, 0));
@@ -53,7 +50,7 @@ export default function Experience({
       return () => clearTimeout(timer);
     }
   }, [changeCamera]);
-
+  console.log(changeCamera);
   return (
     <>
       <axesHelper scale={100} />
@@ -74,7 +71,7 @@ export default function Experience({
         }}
       />
 
-      <Kyungyung />
+      <Kyungyung showAnimation={showAnimation} />
 
       <Box
         position={[0, -1, 0]}

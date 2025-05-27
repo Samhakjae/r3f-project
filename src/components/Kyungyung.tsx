@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Group } from "three";
-import { useAnimations } from "@react-three/drei";
+import { useAnimations, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
 const models = [
@@ -11,10 +11,10 @@ const models = [
   "/models/kyungyung/kyungyung_third.glb",
 ];
 
-export default function Kyungyung(props: any) {
-  const gltf = useLoader(GLTFLoader, "/models/kyungyung/kyungyung_first.glb");
-  const gltf2 = useLoader(GLTFLoader, "/models/kyungyung/kyungyung_second.glb");
-  const gltf3 = useLoader(GLTFLoader, "/models/kyungyung/kyungyung_third.glb");
+export default function Kyungyung(props: { showAnimation: boolean }) {
+  const gltf = useGLTF("/models/kyungyung/kyungyung_first.glb");
+  const gltf2 = useGLTF("/models/kyungyung/kyungyung_second.glb");
+  const gltf3 = useGLTF("/models/kyungyung/kyungyung_third.glb");
   const group = useRef<Group>(null);
   const group2 = useRef<Group>(null);
   const group3 = useRef<Group>(null);
@@ -22,11 +22,10 @@ export default function Kyungyung(props: any) {
   const { actions: actions2 } = useAnimations(gltf2.animations, group2);
   const { actions: actions3 } = useAnimations(gltf3.animations, group3);
   const [startSecond, setStartSecond] = useState(false);
-  const [startThird, setStartThird] = useState(false);
   const [showThird, setShowThird] = useState(false);
 
   useEffect(() => {
-    if (actions) {
+    if (actions && props.showAnimation) {
       const firstActions = Object.values(actions);
       let finishedCount = 0;
       const total = firstActions.length;
@@ -44,10 +43,10 @@ export default function Kyungyung(props: any) {
         });
       });
     }
-  }, []);
+  }, [props.showAnimation]);
 
   useEffect(() => {
-    if (startSecond && actions2) {
+    if (startSecond && actions2 && props.showAnimation) {
       const secondActions = Object.values(actions2);
       let finishedCount = 0;
       const total = secondActions.length;
@@ -69,7 +68,7 @@ export default function Kyungyung(props: any) {
 
   useEffect(() => {
     setTimeout(() => {
-      if (actions3) {
+      if (actions3 && props.showAnimation) {
         const thirdActions = Object.values(actions3);
         thirdActions.forEach((action) => {
           action.reset();
@@ -80,25 +79,33 @@ export default function Kyungyung(props: any) {
         });
       }
     }, 3000);
-  }, []);
+  }, [props.showAnimation]);
 
   return (
     <>
-      <primitive object={gltf.scene} ref={group} position={[70, -0.01, 30]} />
-      {startSecond ? (
-        <primitive
-          object={gltf2.scene}
-          ref={group2}
-          position={[70, -0.02, 30]}
-        />
-      ) : null}
+      {props.showAnimation ? (
+        <>
+          <primitive
+            object={gltf.scene}
+            ref={group}
+            position={[50, -0.01, 20]}
+          />
+          {startSecond ? (
+            <primitive
+              object={gltf2.scene}
+              ref={group2}
+              position={[50, -0.02, 20]}
+            />
+          ) : null}
 
-      {showThird ? (
-        <primitive
-          object={gltf3.scene}
-          ref={group3}
-          position={[70, -0.02, 30]}
-        />
+          {showThird ? (
+            <primitive
+              object={gltf3.scene}
+              ref={group3}
+              position={[50, -0.02, 20]}
+            />
+          ) : null}
+        </>
       ) : null}
     </>
   );

@@ -6,10 +6,20 @@ import { useAnimations } from "@react-three/drei";
 import * as THREE from "three";
 import FollowCamera from "./FollowCamera";
 
-const Character = forwardRef<Group, any>((props) => {
+const Character = forwardRef<Group, any>((props, ref) => {
   const { targetPos, isMoving, onArrive } = props;
   const gltf = useLoader(GLTFLoader, "/models/chung/chung-walk.glb");
   const group = useRef<Group>(null);
+
+  useEffect(() => {
+    if (!ref) return;
+    if (typeof ref === "function") {
+      ref(group.current);
+    } else {
+      (ref as React.MutableRefObject<Group | null>).current = group.current;
+    }
+  }, [ref]);
+
   const { actions } = useAnimations(gltf.animations, group);
   gltf.scene.traverse((child) => {});
   useEffect(() => {
@@ -45,7 +55,7 @@ const Character = forwardRef<Group, any>((props) => {
         .clone()
         .sub(clampedTarget)
         .normalize()
-        .multiplyScalar(0.12);
+        .multiplyScalar(0.25);
 
       group.current?.position.sub(direction);
       group.current.lookAt(clampedTarget);
@@ -55,7 +65,7 @@ const Character = forwardRef<Group, any>((props) => {
   });
 
   return (
-    <>
+    <group>
       <primitive
         ref={group}
         object={gltf.scene}
@@ -63,7 +73,7 @@ const Character = forwardRef<Group, any>((props) => {
         {...props}
       />
       {props.changeCamera && <FollowCamera targetRef={group} />}
-    </>
+    </group>
   );
 });
 
