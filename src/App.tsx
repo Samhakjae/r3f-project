@@ -8,7 +8,7 @@ import { Physics, RigidBody } from "@react-three/rapier";
 import { KeyboardControls } from "@react-three/drei";
 import Experience from "./components/Expreience";
 import Loading from "./components/Loading";
-import Department from "./components/Department";
+
 function App() {
   const [loading, setLoading] = useState(false);
   const [move, setMove] = useState(false);
@@ -36,7 +36,6 @@ function App() {
           <Canvas camera={{ position: [0, 40, 40], fov: 50 }}>
             {/* <CameraMove move={move} /> */}
             <Experience changeCamera={changeCamera} />
-            <OrbitControls />
           </Canvas>
         </div>
       )}

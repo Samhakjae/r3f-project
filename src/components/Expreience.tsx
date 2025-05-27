@@ -3,7 +3,7 @@ import { Box, Environment, Line, OrbitControls } from "@react-three/drei";
 import Character from "./Character";
 import * as THREE from "three";
 import { ThreeEvent, useFrame, useThree } from "@react-three/fiber";
-import Department from "./Department";
+import Kyungyung from "./Kyungyung";
 
 export default function Experience({
   changeCamera,
@@ -21,6 +21,7 @@ export default function Experience({
   const [inZone, setInZone] = useState(false);
   const characterRef = useRef<THREE.Group>(null);
   const { camera } = useThree();
+
   useFrame(() => {
     if (clickBlocked) return;
     if (isDragging && mousePoint) {
@@ -48,7 +49,7 @@ export default function Experience({
         setTargetPos(new THREE.Vector3(0, 2, 0));
         setIsMoving(true);
         setTimeout(() => setClickBlocked(false), 3000); // 애니메이션 시간 후 클릭 허용
-      }, 300); // 약간의 딜레이를 두면 자연스러움
+      }, 300); //
       return () => clearTimeout(timer);
     }
   }, [changeCamera]);
@@ -59,7 +60,7 @@ export default function Experience({
       <Environment preset="sunset" />
       <ambientLight intensity={1} />
 
-      {/* <Character
+      <Character
         ref={characterRef}
         animation="ArmatureAction"
         targetPos={targetPos}
@@ -71,9 +72,9 @@ export default function Experience({
             setCameraFollow(true);
           }
         }}
-      /> */}
+      />
 
-      <Department />
+      <Kyungyung />
 
       <Box
         position={[0, -1, 0]}

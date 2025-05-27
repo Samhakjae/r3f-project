@@ -8,7 +8,7 @@ import FollowCamera from "./FollowCamera";
 
 const Character = forwardRef<Group, any>((props) => {
   const { targetPos, isMoving, onArrive } = props;
-  const gltf = useLoader(GLTFLoader, "/models/chung-walk.glb");
+  const gltf = useLoader(GLTFLoader, "/models/chung/chung-walk.glb");
   const group = useRef<Group>(null);
   const { actions } = useAnimations(gltf.animations, group);
   gltf.scene.traverse((child) => {});
