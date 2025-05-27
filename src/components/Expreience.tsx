@@ -1,9 +1,9 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { Box, Environment, Line, OrbitControls } from "@react-three/drei";
 import Character from "./Character";
 import * as THREE from "three";
 import { ThreeEvent, useFrame, useThree } from "@react-three/fiber";
-import Department from "./Department";
+import Kyungyung from "./Kyungyung";
 
 export default function Experience({
   changeCamera,
@@ -18,12 +18,10 @@ export default function Experience({
   const [mousePoint, setMousePoint] = useState<THREE.Vector3 | null>(null);
   const [cameraFollow, setCameraFollow] = useState(false);
   const [clickBlocked, setClickBlocked] = useState(true);
-  const [inZone, setInZone] = useState(false);
   const characterRef = useRef<THREE.Group>(null);
-  const { camera } = useThree();
-  console.log(targetPos);
+  const [showAnimation, setShowAnimation] = useState(false);
+
   useFrame(() => {
-    if (clickBlocked) return;
     if (isDragging && mousePoint) {
       setTargetPos(mousePoint);
       if (!isMoving) setIsMoving(true);
@@ -31,13 +29,10 @@ export default function Experience({
 
     if (characterRef.current) {
       const charPos = characterRef.current.position;
-      const targetZone = new THREE.Vector3(2, 2);
-      if (charPos.distanceTo(targetZone) < 10 && !inZone) {
-        console.log("inZone");
-        setInZone(true);
-        camera.position.set(10, 30, 10);
-        camera.lookAt(20, 2, 20);
-        setClickBlocked(true);
+      const targetZone = new THREE.Vector3(50, 0, 20);
+      if (charPos.distanceTo(targetZone) < 10 && !showAnimation) {
+        setShowAnimation(true);
+        console.log(showAnimation);
       }
     }
   });
@@ -45,16 +40,17 @@ export default function Experience({
   // Automatically move to [0, 2, 0] after "시작하기" is clicked
   useEffect(() => {
     if (changeCamera) {
+      console.log("position set");
       setClickBlocked(true);
       const timer = setTimeout(() => {
         setTargetPos(new THREE.Vector3(0, 2, 0));
         setIsMoving(true);
         setTimeout(() => setClickBlocked(false), 3000); // 애니메이션 시간 후 클릭 허용
-      }, 300); // 약간의 딜레이를 두면 자연스러움
+      }, 300); //
       return () => clearTimeout(timer);
     }
   }, [changeCamera]);
-
+  console.log(changeCamera);
   return (
     <>
       <axesHelper scale={100} />
@@ -75,7 +71,7 @@ export default function Experience({
         }}
       />
 
-      <Department animation="tableAction" />
+      <Kyungyung showAnimation={showAnimation} />
 
       <Box
         position={[0, -1, 0]}
@@ -101,13 +97,6 @@ export default function Experience({
       >
         <meshStandardMaterial color="skyblue" />
       </Box>
-
-      {inZone && (
-        <mesh position={[20, 2, 2]}>
-          <boxGeometry args={[2, 2, 2]} />
-          <meshStandardMaterial color="orange" />
-        </mesh>
-      )}
     </>
   );
 }
