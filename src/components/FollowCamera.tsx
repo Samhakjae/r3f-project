@@ -11,7 +11,7 @@ const FollowCamera = ({
     if (!targetRef.current) return;
 
     const targetPos = targetRef.current.position.clone();
-    const offset = new THREE.Vector3(6, 38, 38); // 유지할 고정 높이
+    const offset = new THREE.Vector3(6, 30, 35); // 유지할 고정 높이
 
     // Follow x and z
     camera.position.x = targetPos.x + offset.x;
