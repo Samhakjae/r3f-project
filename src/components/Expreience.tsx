@@ -4,6 +4,8 @@ import Character from "./Character";
 import * as THREE from "three";
 import { ThreeEvent, useFrame, useThree } from "@react-three/fiber";
 import Kyungyung from "./Kyungyung";
+import Gunchug from "./Gunchug";
+import Multi from "./Multi";
 
 export default function Experience({
   changeCamera,
@@ -20,6 +22,7 @@ export default function Experience({
   const [clickBlocked, setClickBlocked] = useState(true);
   const characterRef = useRef<THREE.Group>(null);
   const [showAnimation, setShowAnimation] = useState(false);
+  const [showArc, setShowArc] = useState(false);
 
   useFrame(() => {
     if (isDragging && mousePoint) {
@@ -30,9 +33,13 @@ export default function Experience({
     if (characterRef.current) {
       const charPos = characterRef.current.position;
       const targetZone = new THREE.Vector3(50, 0, 20);
-      if (charPos.distanceTo(targetZone) < 10 && !showAnimation) {
+      if (charPos.distanceTo(targetZone) < 15 && !showAnimation) {
         setShowAnimation(true);
-        console.log(showAnimation);
+      }
+
+      const arcTargetZone = new THREE.Vector3(-20, 0, -20);
+      if (charPos.distanceTo(arcTargetZone) < 30 && !showArc) {
+        setShowArc(true);
       }
     }
   });
@@ -72,6 +79,10 @@ export default function Experience({
       />
 
       <Kyungyung showAnimation={showAnimation} />
+
+      <Gunchug showArc={showArc} />
+
+      <Multi />
 
       <Box
         position={[0, -1, 0]}

@@ -33,8 +33,8 @@ function App() {
               </button>
             </div>
           )}
-          <Canvas camera={{ position: [0, 40, 40], fov: 50 }}>
-            {/* <CameraMove move={move} /> */}
+          <Canvas camera={{ position: [0, 30, 30], fov: 50 }}>
+            <CameraMove move={move} />
             <Experience changeCamera={changeCamera} />
           </Canvas>
         </div>
