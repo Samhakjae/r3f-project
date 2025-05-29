@@ -82,7 +82,7 @@ export default function Experience({
       <Multi />
 
       <Box
-        position={[0, -1, 0]}
+        position={[0, -0.9, 0]}
         args={[1000, 2, 1000]}
         onPointerDown={(e) => {
           if (clickBlocked || !hasArrived) return;
