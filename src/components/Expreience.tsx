@@ -47,7 +47,6 @@ export default function Experience({
   // Automatically move to [0, 2, 0] after "시작하기" is clicked
   useEffect(() => {
     if (changeCamera) {
-      console.log("position set");
       setClickBlocked(true);
       const timer = setTimeout(() => {
         setTargetPos(new THREE.Vector3(0, 2, 0));
@@ -57,7 +56,6 @@ export default function Experience({
       return () => clearTimeout(timer);
     }
   }, [changeCamera]);
-  console.log(changeCamera);
   return (
     <>
       <axesHelper scale={100} />
@@ -79,9 +77,7 @@ export default function Experience({
       />
 
       <Kyungyung showAnimation={showAnimation} />
-
       <Gunchug showArc={showArc} />
-
       <Multi />
 
       <Box
