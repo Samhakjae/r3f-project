@@ -11,6 +11,10 @@ const Character = forwardRef<Group, any>((props, ref) => {
   const gltf = useLoader(GLTFLoader, "/models/chung/chung-second-walk.glb");
   const gltf2 = useLoader(GLTFLoader, "/models/chung/chung-idle-ver2.glb");
   const group = useRef<Group>(null);
+  const isMobile = window.innerWidth <= 900;
+  const startPosition = isMobile
+    ? { x: -30, y: 2, z: 10 } // 모바일용
+    : { x: -50, y: 2, z: 10 }; // 데스크탑용
 
   useEffect(() => {
     if (!ref) return;
@@ -85,7 +89,7 @@ const Character = forwardRef<Group, any>((props, ref) => {
       <primitive
         ref={group}
         object={gltf.scene}
-        position={[-50, 2, 10]}
+        position={[startPosition.x, startPosition.y, startPosition.z]}
         {...props}
       />
       {props.changeCamera && <FollowCamera targetRef={group} />}

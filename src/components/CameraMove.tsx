@@ -8,7 +8,7 @@ export default function CameraMove({ move }: { move: boolean }) {
   const hasSetTarget = useRef(false);
   const isMobile = window.innerWidth <= 900;
   const targetPosition = isMobile
-    ? { x: 6, y: 35, z: 40 } // 모바일용
+    ? { x: 6, y: 50, z: 55 } // 모바일용
     : { x: 6, y: 30, z: 35 }; // 데스크탑용
 
   useEffect(() => {
