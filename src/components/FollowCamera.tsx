@@ -12,11 +12,15 @@ const FollowCamera = ({
 
     const targetPos = targetRef.current.position.clone();
     const offset = new THREE.Vector3(6, 30, 35); // 유지할 고정 높이
+    const isMobile = window.innerWidth <= 900;
+    const targetPosition = isMobile
+      ? { x: 6, y: 60, z: 65 } // 모바일용
+      : { x: 6, y: 30, z: 35 }; // 데스크탑용
 
     // Follow x and z
-    camera.position.x = targetPos.x + offset.x;
-    camera.position.z = targetPos.z + offset.z;
-    camera.position.y = offset.y; // 고정된 y
+    camera.position.x = targetPos.x + targetPosition.x;
+    camera.position.z = targetPos.z + targetPosition.z;
+    camera.position.y = targetPosition.y; // 고정된 y
 
     camera.lookAt(new THREE.Vector3(targetPos.x, 0, targetPos.z)); // 항상 아래를 바라보게
   });

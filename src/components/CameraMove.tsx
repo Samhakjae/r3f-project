@@ -6,13 +6,17 @@ import JEASINGS from "jeasings";
 export default function CameraMove({ move }: { move: boolean }) {
   const { camera } = useThree();
   const hasSetTarget = useRef(false);
+  const isMobile = window.innerWidth <= 900;
+  const targetPosition = isMobile
+    ? { x: 6, y: 35, z: 40 } // 모바일용
+    : { x: 6, y: 30, z: 35 }; // 데스크탑용
 
   useEffect(() => {
     if (move && !hasSetTarget.current) {
       hasSetTarget.current = true;
 
       new JEASINGS.JEasing(camera.position)
-        .to({ x: 6, y: 38, z: 38 }, 3000)
+        .to(targetPosition, 3500)
         .easing(JEASINGS.Cubic.Out)
         .start();
 
