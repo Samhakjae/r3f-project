@@ -1,5 +1,5 @@
 import { useAnimations, useGLTF } from "@react-three/drei";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Group } from "three";
 import * as THREE from "three";
 
@@ -16,6 +16,7 @@ export default function Multi() {
         action.time = 0.01;
         action.setLoop(THREE.LoopRepeat);
         action.clampWhenFinished = true;
+        action.timeScale = 0.5;
         action.fadeIn(0.5).play();
       });
     }

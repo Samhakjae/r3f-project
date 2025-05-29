@@ -23,6 +23,7 @@ export default function Experience({
   const characterRef = useRef<THREE.Group>(null);
   const [showAnimation, setShowAnimation] = useState(false);
   const [showArc, setShowArc] = useState(false);
+  const [hasArrived, setHasArrived] = useState(false);
 
   useFrame(() => {
     if (isDragging && mousePoint) {
@@ -33,25 +34,23 @@ export default function Experience({
     if (characterRef.current) {
       const charPos = characterRef.current.position;
       const targetZone = new THREE.Vector3(50, 0, 20);
-      if (charPos.distanceTo(targetZone) < 15 && !showAnimation) {
+      if (charPos.distanceTo(targetZone) < 5 && !showAnimation) {
         setShowAnimation(true);
       }
 
       const arcTargetZone = new THREE.Vector3(-20, 0, -20);
-      if (charPos.distanceTo(arcTargetZone) < 30 && !showArc) {
+      if (charPos.distanceTo(arcTargetZone) < 5 && !showArc) {
         setShowArc(true);
       }
     }
   });
 
-  // Automatically move to [0, 2, 0] after "시작하기" is clicked
   useEffect(() => {
     if (changeCamera) {
       setClickBlocked(true);
       const timer = setTimeout(() => {
         setTargetPos(new THREE.Vector3(0, 2, 0));
         setIsMoving(true);
-        setTimeout(() => setClickBlocked(false), 3000); // 애니메이션 시간 후 클릭 허용
       }, 300); //
       return () => clearTimeout(timer);
     }
@@ -72,6 +71,8 @@ export default function Experience({
           setIsMoving(false);
           if (targetPos.equals(new THREE.Vector3(0, 2, 0))) {
             setCameraFollow(true);
+            setHasArrived(true);
+            setClickBlocked(false);
           }
         }}
       />
@@ -81,19 +82,19 @@ export default function Experience({
       <Multi />
 
       <Box
-        position={[0, -1, 0]}
+        position={[0, -0.9, 0]}
         args={[1000, 2, 1000]}
         onPointerDown={(e) => {
-          if (clickBlocked) return;
+          if (clickBlocked || !hasArrived) return;
           setIsDragging(true);
           setMousePoint(new THREE.Vector3(e.point.x, 2, e.point.z));
         }}
         onPointerMove={(e) => {
-          if (clickBlocked || !isDragging) return;
+          if (clickBlocked || !hasArrived || !isDragging) return;
           setMousePoint(new THREE.Vector3(e.point.x, 2, e.point.z));
         }}
         onPointerUp={() => {
-          if (clickBlocked) return;
+          if (clickBlocked || !hasArrived) return;
           if (mousePoint) {
             setTargetPos(mousePoint);
             setIsMoving(true);

@@ -35,6 +35,7 @@ export default function Kyungyung(props: { showAnimation: boolean }) {
         action.time = 0.01;
         action.setLoop(THREE.LoopOnce, 1);
         action.clampWhenFinished = true;
+        action.timeScale = 0.5;
         action.fadeIn(0.5).play();
         action.getMixer().addEventListener("finished", () => {
           finishedCount++;
@@ -57,6 +58,7 @@ export default function Kyungyung(props: { showAnimation: boolean }) {
         action.time = 0.01;
         action.setLoop(THREE.LoopOnce, 1);
         action.clampWhenFinished = true;
+        action.timeScale = 0.5;
         action.fadeIn(0.5).play();
         action.getMixer().addEventListener("finished", () => {
           finishedCount++;
@@ -73,9 +75,10 @@ export default function Kyungyung(props: { showAnimation: boolean }) {
         const thirdActions = Object.values(actions3);
         thirdActions.forEach((action) => {
           action.reset();
-          action.time = 0.01;
+          action.time = 0;
           action.setLoop(THREE.LoopOnce, 1);
           action.clampWhenFinished = true;
+          action.timeScale = 0.1;
           action.fadeIn(0.5).play();
           setShowThird(true);
         });
