@@ -24,7 +24,7 @@ function App() {
       </Canvas>
 
       {loading && (
-        <div className="absolute inset-0 z-50  flex items-center justify-center w-full">
+        <div className="absolute top-0 left-0 w-screen h-screen z-50 bg-white flex items-center justify-center">
           <Loading />
         </div>
       )}
