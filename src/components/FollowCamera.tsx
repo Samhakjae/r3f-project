@@ -14,7 +14,7 @@ const FollowCamera = ({
     const offset = new THREE.Vector3(6, 30, 35); // 유지할 고정 높이
     const isMobile = window.innerWidth <= 900;
     const targetPosition = isMobile
-      ? { x: 6, y: 60, z: 65 } // 모바일용
+      ? { x: 6, y: 50, z: 55 } // 모바일용
       : { x: 6, y: 30, z: 35 }; // 데스크탑용
 
     // Follow x and z

@@ -123,7 +123,7 @@ export default function Gunchug(props: { showArc: boolean }) {
       <primitive
         object={gltf3.scene}
         ref={group3}
-        position={[0, 2, 0]}
+        position={[-20, 2, 20]}
         rotation={[0, Math.PI / 2, 0]}
       />
     </>
