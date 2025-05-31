@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Group } from "three";
 import * as THREE from "three";
 
-export default function Architect(props: { showArc: boolean }) {
+export default function Architecture(props: { showArc: boolean }) {
   const gltf = useGLTF("/models/gunchug/arc111.glb");
   const gltf2 = useGLTF("/models/gunchug/arc222.glb");
   const gltf3 = useGLTF("/models/gunchug/ccc3.glb");

@@ -11,7 +11,7 @@ const models = [
   "/models/kyungyung/kyungyung_third.glb",
 ];
 
-export default function Kyungyung(props: { showAnimation: boolean }) {
+export default function Business(props: { showAnimation: boolean }) {
   const gltf = useGLTF("/models/kyungyung/kyungyung_1.glb");
   const gltf2 = useGLTF("/models/kyungyung/kyungyung_2.glb");
   const gltf3 = useGLTF("/models/kyungyung/kyungyung_3.glb");
