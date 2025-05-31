@@ -3,9 +3,13 @@ import { Box, Environment, Line, OrbitControls } from "@react-three/drei";
 import Character from "./Character";
 import * as THREE from "three";
 import { ThreeEvent, useFrame, useThree } from "@react-three/fiber";
-import Kyungyung from "./Kyungyung";
-import Gunchug from "./Gunchug";
-import Multi from "./Multi";
+import Business from "./Business/Business";
+import Architecture from "./Architecture/Architecture";
+import Multi from "./Multi/Multi";
+
+const triggerPosition = {
+  multi: [20, 2, 20],
+};
 
 export default function Experience({
   changeCamera,
@@ -23,6 +27,7 @@ export default function Experience({
   const characterRef = useRef<THREE.Group>(null);
   const [showAnimation, setShowAnimation] = useState(false);
   const [showArc, setShowArc] = useState(false);
+  const [showMultiAnimation, setShowMultiAnimation] = useState(false);
   const [hasArrived, setHasArrived] = useState(false);
 
   useFrame(() => {
@@ -34,13 +39,19 @@ export default function Experience({
     if (characterRef.current) {
       const charPos = characterRef.current.position;
       const targetZone = new THREE.Vector3(50, 0, 20);
-      if (charPos.distanceTo(targetZone) < 5 && !showAnimation) {
+
+      if (charPos.distanceTo(targetZone) < 10 && !showAnimation) {
         setShowAnimation(true);
       }
 
       const arcTargetZone = new THREE.Vector3(-20, 0, -20);
       if (charPos.distanceTo(arcTargetZone) < 5 && !showArc) {
         setShowArc(true);
+      }
+
+      const multiTargetZone = new THREE.Vector3(20, 0, 20);
+      if (charPos.distanceTo(multiTargetZone) < 10 && !showMultiAnimation) {
+        setShowMultiAnimation(true);
       }
     }
   });
@@ -77,9 +88,9 @@ export default function Experience({
         }}
       />
 
-      <Kyungyung showAnimation={showAnimation} />
-      <Gunchug showArc={showArc} />
-      <Multi />
+      <Business showAnimation={showAnimation} />
+      <Architecture showArc={showArc} />
+      <Multi showMultiAnimation={showMultiAnimation} />
 
       <Box
         position={[0, -0.9, 0]}
