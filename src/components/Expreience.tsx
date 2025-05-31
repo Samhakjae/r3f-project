@@ -4,8 +4,12 @@ import Character from "./Character";
 import * as THREE from "three";
 import { ThreeEvent, useFrame, useThree } from "@react-three/fiber";
 import Kyungyung from "./Kyungyung";
-import Gunchug from "./Gunchug";
+import Architect from "./Architect";
 import Multi from "./Multi";
+
+const triggerPosition = {
+  multi: [20, 2, 20],
+};
 
 export default function Experience({
   changeCamera,
@@ -34,7 +38,8 @@ export default function Experience({
     if (characterRef.current) {
       const charPos = characterRef.current.position;
       const targetZone = new THREE.Vector3(50, 0, 20);
-      if (charPos.distanceTo(targetZone) < 5 && !showAnimation) {
+      console.log(targetPos);
+      if (charPos.distanceTo(targetZone) < 10 && !showAnimation) {
         setShowAnimation(true);
       }
 
@@ -78,7 +83,7 @@ export default function Experience({
       />
 
       <Kyungyung showAnimation={showAnimation} />
-      <Gunchug showArc={showArc} />
+      <Architect showArc={showArc} />
       <Multi />
 
       <Box
