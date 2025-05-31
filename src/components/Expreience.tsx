@@ -1,15 +1,12 @@
-import { useState, useRef, useEffect, useMemo } from "react";
-import { Box, Environment, Line, OrbitControls } from "@react-three/drei";
+import { useState, useRef, useEffect } from "react";
+import { Box, Environment, useSelect } from "@react-three/drei";
 import Character from "./Character";
 import * as THREE from "three";
-import { ThreeEvent, useFrame, useThree } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import Business from "./Business/Business";
 import Architecture from "./Architecture/Architecture";
 import Multi from "./Multi/Multi";
-
-const triggerPosition = {
-  multi: [20, 2, 20],
-};
+import Chemical from "./Chemical/Chemical";
 
 export default function Experience({
   changeCamera,
@@ -28,6 +25,7 @@ export default function Experience({
   const [showAnimation, setShowAnimation] = useState(false);
   const [showArc, setShowArc] = useState(false);
   const [showMultiAnimation, setShowMultiAnimation] = useState(false);
+  const [showChemicalAnimation, setShowChemicalAnimation] = useState(false);
   const [hasArrived, setHasArrived] = useState(false);
 
   useFrame(() => {
@@ -40,18 +38,26 @@ export default function Experience({
       const charPos = characterRef.current.position;
       const targetZone = new THREE.Vector3(50, 0, 20);
 
-      if (charPos.distanceTo(targetZone) < 10 && !showAnimation) {
+      if (charPos.distanceTo(targetZone) < 15 && !showAnimation) {
         setShowAnimation(true);
       }
 
       const arcTargetZone = new THREE.Vector3(-20, 0, -20);
-      if (charPos.distanceTo(arcTargetZone) < 5 && !showArc) {
+      if (charPos.distanceTo(arcTargetZone) < 15 && !showArc) {
         setShowArc(true);
       }
 
       const multiTargetZone = new THREE.Vector3(20, 0, 20);
-      if (charPos.distanceTo(multiTargetZone) < 10 && !showMultiAnimation) {
+      if (charPos.distanceTo(multiTargetZone) < 15 && !showMultiAnimation) {
         setShowMultiAnimation(true);
+      }
+
+      const chemicalTargetZone = new THREE.Vector3(40, 0, 50);
+      if (
+        charPos.distanceTo(chemicalTargetZone) < 15 &&
+        !showChemicalAnimation
+      ) {
+        setShowChemicalAnimation(true);
       }
     }
   });
@@ -89,8 +95,9 @@ export default function Experience({
       />
 
       <Business showAnimation={showAnimation} />
-      <Architecture showArc={showArc} />
+      {/* <Architecture showArc={showArc} /> */}
       <Multi showMultiAnimation={showMultiAnimation} />
+      <Chemical showChemicalAnimaton={showChemicalAnimation} />
 
       <Box
         position={[0, -0.9, 0]}
