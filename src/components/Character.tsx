@@ -75,7 +75,7 @@ const Character = forwardRef<Group, any>((props, ref) => {
         .clone()
         .sub(clampedTarget)
         .normalize()
-        .multiplyScalar(0.09);
+        .multiplyScalar(0.2);
 
       group.current?.position.sub(direction);
       group.current.lookAt(clampedTarget);

@@ -95,7 +95,7 @@ export default function Experience({
       />
 
       <Business showAnimation={showAnimation} />
-      {/* <Architecture showArc={showArc} /> */}
+      <Architecture showArc={showArc} />
       <Multi showMultiAnimation={showMultiAnimation} />
       <Chemical showChemicalAnimaton={showChemicalAnimation} />
 
