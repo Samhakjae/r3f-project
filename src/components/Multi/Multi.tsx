@@ -45,7 +45,7 @@ export default function Multi(props: { showMultiAnimation: boolean }) {
       <primitive
         ref={group}
         object={gltf.scene}
-        position={[20, 2, 20]}
+        position={[43, 2, 65]}
         rotation={[0, -Math.PI / 2, 0]}
         visible={!props.showMultiAnimation}
       />
@@ -53,7 +53,7 @@ export default function Multi(props: { showMultiAnimation: boolean }) {
       <primitive
         object={gltf2.scene}
         ref={group2}
-        position={[20, 2, 20]}
+        position={[43, 2, 65]}
         rotation={[0, -Math.PI / 2, 0]}
         visible={props.showMultiAnimation}
       />

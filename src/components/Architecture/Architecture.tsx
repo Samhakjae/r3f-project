@@ -69,7 +69,7 @@ export default function Architecture(props: { showArc: boolean }) {
       <primitive
         ref={group}
         object={gltf.scene}
-        position={[-20, 2, -20]}
+        position={[20, 2, 20]}
         rotation={[0, -Math.PI / 2, 0]}
         visible={!props.showArc}
       />
@@ -77,7 +77,7 @@ export default function Architecture(props: { showArc: boolean }) {
       <primitive
         object={gltf2.scene}
         ref={group2}
-        position={[-20, 2, -20]}
+        position={[20, 2, 20]}
         rotation={[0, -Math.PI / 2, 0]}
         visible={props.showArc && !showAct3}
       />
@@ -85,7 +85,7 @@ export default function Architecture(props: { showArc: boolean }) {
       <primitive
         object={gltf3.scene}
         ref={group3}
-        position={[-20, 2, -20]}
+        position={[20, 2, 20]}
         rotation={[0, -Math.PI / 2, 0]}
         visible={showAct3}
       />

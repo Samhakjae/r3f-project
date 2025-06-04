@@ -28,7 +28,7 @@ export default function Experience({
   const [showMultiAnimation, setShowMultiAnimation] = useState(false);
   const [showChemicalAnimation, setShowChemicalAnimation] = useState(false);
   const [hasArrived, setHasArrived] = useState(false);
-
+  console.log(targetPos);
   useFrame(() => {
     if (isDragging && mousePoint) {
       setTargetPos(mousePoint);
@@ -37,25 +37,24 @@ export default function Experience({
 
     if (characterRef.current) {
       const charPos = characterRef.current.position;
-      const targetZone = new THREE.Vector3(50, 0, 20);
-
-      if (charPos.distanceTo(targetZone) < 15 && !showAnimation) {
+      const targetZone = new THREE.Vector3(50, 0, 32);
+      if (charPos.distanceTo(targetZone) < 10 && !showAnimation) {
         setShowAnimation(true);
       }
 
-      const arcTargetZone = new THREE.Vector3(-20, 0, -20);
-      if (charPos.distanceTo(arcTargetZone) < 15 && !showArc) {
+      const arcTargetZone = new THREE.Vector3(20, 0, 20);
+      if (charPos.distanceTo(arcTargetZone) < 10 && !showArc) {
         setShowArc(true);
       }
 
-      const multiTargetZone = new THREE.Vector3(20, 0, 20);
-      if (charPos.distanceTo(multiTargetZone) < 15 && !showMultiAnimation) {
+      const multiTargetZone = new THREE.Vector3(50, 0, 50);
+      if (charPos.distanceTo(multiTargetZone) < 10 && !showMultiAnimation) {
         setShowMultiAnimation(true);
       }
 
-      const chemicalTargetZone = new THREE.Vector3(40, 0, 50);
+      const chemicalTargetZone = new THREE.Vector3(12, 0, 73);
       if (
-        charPos.distanceTo(chemicalTargetZone) < 15 &&
+        charPos.distanceTo(chemicalTargetZone) < 10 &&
         !showChemicalAnimation
       ) {
         setShowChemicalAnimation(true);
