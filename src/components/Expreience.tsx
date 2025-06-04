@@ -28,7 +28,7 @@ export default function Experience({
   const [showMultiAnimation, setShowMultiAnimation] = useState(false);
   const [showChemicalAnimation, setShowChemicalAnimation] = useState(false);
   const [hasArrived, setHasArrived] = useState(false);
-  console.log(targetPos);
+
   useFrame(() => {
     if (isDragging && mousePoint) {
       setTargetPos(mousePoint);
@@ -102,7 +102,7 @@ export default function Experience({
       <Floor />
       <Box
         position={[0, -1, 0]}
-        args={[1000, 2, 1000]}
+        args={[400, 2, 400]}
         onPointerDown={(e) => {
           if (clickBlocked || !hasArrived) return;
           setIsDragging(true);
