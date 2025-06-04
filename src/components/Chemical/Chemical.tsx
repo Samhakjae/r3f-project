@@ -69,7 +69,7 @@ export default function Chemical(props: { showChemicalAnimaton: boolean }) {
       <primitive
         ref={group}
         object={gltf.scene}
-        position={[40, 2, 50]}
+        position={[8, 2, 75]}
         rotation={[0, Math.PI / 2, 0]}
         visible={!props.showChemicalAnimaton}
       />
@@ -77,7 +77,7 @@ export default function Chemical(props: { showChemicalAnimaton: boolean }) {
       <primitive
         object={gltf2.scene}
         ref={group2}
-        position={[40, 2, 50]}
+        position={[8, 2, 75]}
         rotation={[0, Math.PI / 2, 0]}
         visible={props.showChemicalAnimaton && !showAct3}
       />
@@ -85,7 +85,7 @@ export default function Chemical(props: { showChemicalAnimaton: boolean }) {
       <primitive
         object={gltf3.scene}
         ref={group3}
-        position={[40, 2, 50]}
+        position={[8, 2, 75]}
         rotation={[0, Math.PI / 2, 0]}
         visible={showAct3}
       />

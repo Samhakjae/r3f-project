@@ -93,13 +93,13 @@ export default function Business(props: { showAnimation: boolean }) {
           <primitive
             object={gltf.scene}
             ref={group}
-            position={[50, -0.01, 20]}
+            position={[55, -0.02, 28]}
           />
           {startSecond ? (
             <primitive
               object={gltf2.scene}
               ref={group2}
-              position={[50, -0.02, 20]}
+              position={[55, -0.02, 28]}
             />
           ) : null}
 
@@ -107,7 +107,7 @@ export default function Business(props: { showAnimation: boolean }) {
             <primitive
               object={gltf3.scene}
               ref={group3}
-              position={[50, -0.02, 20]}
+              position={[55, -0.02, 28]}
             />
           ) : null}
         </>
