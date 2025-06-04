@@ -31,7 +31,7 @@ export default function Architecture(props: { showArc: boolean }) {
   }, []);
 
   useEffect(() => {
-    if (actions2 && props.showChemicalAnimaton) {
+    if (actions2 && props.showArc) {
       const action = Object.values(actions2);
       action.forEach((action) => {
         action.reset();
@@ -62,7 +62,7 @@ export default function Architecture(props: { showArc: boolean }) {
         action.fadeIn(0.5).play();
       });
     }
-  }, [showAct3, actions3]);
+  }, [showAct3]);
 
   return (
     <>
