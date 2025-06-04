@@ -7,6 +7,7 @@ import Business from "./Business/Business";
 import Architecture from "./Architecture/Architecture";
 import Multi from "./Multi/Multi";
 import Chemical from "./Chemical/Chemical";
+import Floor from "./Floor";
 
 export default function Experience({
   changeCamera,
@@ -99,8 +100,9 @@ export default function Experience({
       <Multi showMultiAnimation={showMultiAnimation} />
       <Chemical showChemicalAnimaton={showChemicalAnimation} />
 
+      <Floor />
       <Box
-        position={[0, -0.9, 0]}
+        position={[0, -1, 0]}
         args={[1000, 2, 1000]}
         onPointerDown={(e) => {
           if (clickBlocked || !hasArrived) return;
@@ -121,7 +123,7 @@ export default function Experience({
           setMousePoint(null);
         }}
       >
-        <meshStandardMaterial color="skyblue" />
+        <meshStandardMaterial color="white" />
       </Box>
     </>
   );
